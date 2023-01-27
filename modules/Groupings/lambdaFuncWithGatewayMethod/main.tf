@@ -34,3 +34,11 @@ module "api_method_lambda" {
 
   authorizer_id = var.authorizer_id
 }
+
+output "integration_id" {
+  value = module.api_method_lambda.integration_id
+}
+
+output "method_id" {
+  value = module.api_method_lambda.method_id
+}

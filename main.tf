@@ -1,21 +1,47 @@
-module "api_gateway" {
-  source   = "./modules/Singles/api_gateway"
-
-  api_name = var.api_name
-
-  resource_names = var.resource_names
+provider "aws" {
+    region = "us-east-1"
 }
+
+
+resource "aws_api_gateway_rest_api" "example" {
+  name = var.api_name
+}
+
+resource "aws_api_gateway_resource" "example" {
+  for_each = toset(var.resource_names)
+  path_part   = each.value
+  parent_id   = aws_api_gateway_rest_api.example.root_resource_id
+  rest_api_id = aws_api_gateway_rest_api.example.id
+}
+
+locals {
+  execution_arn       = join("", aws_api_gateway_rest_api.example.*.execution_arn)
+  ids = {
+    for path_part, example in aws_api_gateway_resource.example : path_part => example.id
+  }
+}
+
+
+output "ids" {
+  value = local.ids
+}
+
 
 resource "aws_api_gateway_authorizer" "auth" {
   count = var.user_pool_auth
   name          = "CognitoUserPoolAuthorizer"
   type          = "COGNITO_USER_POOLS"
-  rest_api_id   = module.api_gateway.id
+  rest_api_id   = aws_api_gateway_rest_api.example.id
   provider_arns = [var.cognito_user_pool_arn]
 }
 
 module "lambda_function_and_method" {
   source   = "./modules/Groupings/lambdaFuncWithGatewayMethod"
+
+  depends_on = [
+    aws_api_gateway_resource.example
+  ]
+
   for_each = {
     for func in var.functions:
     func.func_name => func # Perfect, since VM names also need to be unique
@@ -25,9 +51,9 @@ module "lambda_function_and_method" {
 
   func_layers = concat(each.value.layers,var.unanimous_layers)
 
-  rest_id = module.api_gateway.aws_api_gateway_rest_api_id
+  rest_id = aws_api_gateway_rest_api.example.id
 
-  resource_id = module.api_gateway.aws_api_gateway_resource_ids[each.value.resource_name]
+  resource_id = local.ids[each.value.resource_name]
 
   func_zip_path = each.value.func_zip_path
 
@@ -52,6 +78,7 @@ module "lambda_function_and_method" {
   timeout = 20
 }
 
+
 module "api_deployment" {
   source   = "./modules/Singles/api_gateway_deploy_stage"
 
@@ -59,10 +86,10 @@ module "api_deployment" {
     module.lambda_function_and_method
   ]
 
-  rest_api_id = module.api_gateway.aws_api_gateway_rest_api_id
+  rest_api_id = aws_api_gateway_rest_api.example.id
 
   resource_ids = [
-    for aws_api_gateway_resource_ids in module.api_gateway.aws_api_gateway_resource_ids : aws_api_gateway_resource_ids
+    for aws_api_gateway_resource_ids in local.ids : aws_api_gateway_resource_ids
   ]
   
   method_ids = [

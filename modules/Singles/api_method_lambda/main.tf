@@ -1,3 +1,7 @@
+output "res_id" {
+  value = var.resource_id
+}
+
 resource "aws_api_gateway_method" "request_method" {
   rest_api_id   = "${var.rest_api_id}"
   resource_id   = "${var.resource_id}"

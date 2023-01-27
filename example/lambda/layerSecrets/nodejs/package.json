@@ -1,0 +1,12 @@
+{
+  "name": "layer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "layerSecrets.js",
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@aws-sdk/client-secrets-manager": "^3.241.0",
+    "jsonwebtoken": "^9.0.0"
+  }
+}
