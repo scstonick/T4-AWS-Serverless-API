@@ -9,7 +9,7 @@ require("@aws-sdk/client-secrets-manager/dist-cjs/SecretsManagerClient.js");
 exports.getSecrets = async () => {
   
   const client = new SecretsManagerClient.SecretsManagerClient({ region: "us-east-1", });
-  const secret_name = "ExampleNameSec";
+  const secret_name = "ExampleNameSecr";
   let secret, value;
 
   try 

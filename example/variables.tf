@@ -15,7 +15,7 @@ variable "layer_secret_runtimes" {
 }
 
 variable "layer_secret_zip_path" {
-    //default = "./lambda/layerSecrets/layerSecrets.zip"
+    default = "./lambda/layerSecrets/layerSecrets.zip"
 }
 
 variable "resources" {
