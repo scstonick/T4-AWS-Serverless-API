@@ -77,7 +77,7 @@ resource "aws_iam_role" "iam_for_lambda" {
 // API =======================================================
 
 module "lambda_functions" {
-  source = "github.com/scstonick/T4-AWS-Serverless-API?ref=latest"
+  source = "github.com/scstonick/T4-AWS-Serverless-API?ref=v1.0"
   
   api_name = var.api_name
 

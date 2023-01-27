@@ -1,5 +1,5 @@
 variable "aws_account_id" {
-    default = "234810685479"
+    
 }
 
 variable "secret_name" {
@@ -15,7 +15,7 @@ variable "layer_secret_runtimes" {
 }
 
 variable "layer_secret_zip_path" {
-    default = "./lambda/layerSecrets/layerSecrets.zip"
+    //default = "./lambda/layerSecrets/layerSecrets.zip"
 }
 
 variable "resources" {

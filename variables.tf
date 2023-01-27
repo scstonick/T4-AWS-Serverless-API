@@ -36,22 +36,3 @@ variable "functions" {
         resource_name = string
         layers = list(string)
   }))
-
-
-  # default = [
-  #   {
-  #     func_zip_path = "./../../../lambda/loginfunction/loginfunction.zip"
-  #     func_name = "loginfunctionn"
-  #     func_runtime = "nodejs18.x"
-  #     func_role_name = "lambda_role_onee"
-  #     method_type = "POST"
-  #     path = "/JWTResource"
-  #     region = "us-east-2"
-  #     account_id = "234810685479"
-  #     resource_name = "exampleresource1"
-  #     layers = []
-  #     authorization = "NONE"
-  #     authorizer_id = ""
-  #   }
-  # ]
-}
