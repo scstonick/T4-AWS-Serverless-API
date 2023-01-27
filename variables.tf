@@ -36,3 +36,4 @@ variable "functions" {
         resource_name = string
         layers = list(string)
   }))
+}
