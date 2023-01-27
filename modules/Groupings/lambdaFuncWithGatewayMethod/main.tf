@@ -14,7 +14,7 @@ module "api_method_lambda" {
     aws_lambda_function.lambda
   ]
 
-  source   = "./../Singles/api_method_lambda"
+  source   = "./../../Singles/api_method_lambda"
 
   rest_api_id = var.rest_id
 
