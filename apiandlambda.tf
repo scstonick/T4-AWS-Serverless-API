@@ -48,6 +48,8 @@ module "lambda_function_and_method" {
   authorization = var.user_pool_auth == 0 ? "NONE" : "COGNITO_USER_POOLS"
   
   authorizer_id = var.user_pool_auth == 0 ? "" : aws_api_gateway_authorizer.auth[0].id
+
+  timeout = 20
 }
 
 module "api_deployment" {

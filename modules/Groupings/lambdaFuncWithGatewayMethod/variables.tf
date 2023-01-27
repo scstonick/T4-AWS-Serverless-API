@@ -27,3 +27,7 @@ variable "authorization" {
 variable "authorizer_id" {
   default = ""
 }
+
+variable "timeout" {
+  default = ""
+}
